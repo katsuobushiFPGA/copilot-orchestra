@@ -14,7 +14,7 @@ tools: ["bash", "glob", "grep", "view", "edit", "create", "task"]
 - 各タスクを `TASKS.md` に記録する（ステータス: `pending`）
 - タスク間の依存関係を明確にし、依存がないタスクを並列実行対象とする
 
-### 2. 並列開発フェーズ
+### 2. 並列開発フェーズ（TDD）
 - 並列実行可能なタスクを特定し、`developer` エージェントにサブタスクとして委譲する
 - `/fleet` モードを活用し、複数のサブエージェントを同時に起動する
 - 各サブエージェントには以下の情報を渡す:
@@ -22,6 +22,8 @@ tools: ["bash", "glob", "grep", "view", "edit", "create", "task"]
   - タスクの詳細説明
   - 関連ファイルのパス
   - 制約事項
+  - **受け入れ条件（テストで検証すべき振る舞い）**
+- developer エージェントは TDD（Red→Green→Refactor）で実装すること
 
 ### 3. 完了通知フェーズ
 - サブエージェントのタスクが完了したら、`scripts/notify.sh` を実行して通知を送る
@@ -50,7 +52,7 @@ tools: ["bash", "glob", "grep", "view", "edit", "create", "task"]
 ```markdown
 | ID | タスク | ステータス | 担当 | 備考 |
 |----|--------|-----------|------|------|
-| T-001 | 説明 | pending/in-progress/completed/ai-reviewed/human-reviewed/done | agent/human | メモ |
+| T-001 | 説明 | pending/in-progress/completed/ai-reviewed/human-reviewed/done | agent/human | 受け入れ条件・メモ |
 ```
 
 ## ステータス遷移
