@@ -41,8 +41,15 @@ tools: ["bash", "glob", "grep", "view", "edit", "create"]
 ## 作業手順
 
 ### 1. 準備
-- タスクIDに対応する worktree を作成/再利用する: `./scripts/worktree-task.sh <task-id>`
-- 作業ディレクトリを切り替える: `cd worktrees/<task-id>`
+- **【必須】タスクIDに対応する worktree を作成/再利用する**:
+  ```bash
+  ./scripts/worktree-task.sh <task-id>
+  cd worktrees/<task-id>
+  ```
+- **【必須】開始ログを記録する**:
+  ```bash
+  ./scripts/task-log.sh <task-id> "🚀 開発開始"
+  ```
 - 関連ファイルを確認し、変更箇所を特定する
 - プロジェクトのテストフレームワーク・テスト実行方法を確認する
 
@@ -56,10 +63,16 @@ tools: ["bash", "glob", "grep", "view", "edit", "create"]
 - 各サイクルごとにコミットする（履歴からTDDの過程が追えるようにする）
 
 ### 4. 完了報告
+- **【必須】完了ログを記録する**:
+  ```bash
+  ./scripts/task-log.sh <task-id> "✅ 開発完了: <変更サマリー>"
+  ```
 - 変更内容のサマリーを作成する
 - テストカバレッジ（テストケース数・カバー範囲）を報告する
 - TDDサイクルの回数を報告する
 - 必要に応じて後処理を行う: `git worktree remove worktrees/<task-id>`（削除可能な状態の場合）
+
+**注意: 開発完了後、orchestrator が reviewer → explainer → 人間レビュー を実行する。developer は完了報告までを担当する。**
 
 ## コミットメッセージ形式
 
