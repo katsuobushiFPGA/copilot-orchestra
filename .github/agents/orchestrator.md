@@ -13,6 +13,10 @@ tools: ["bash", "glob", "grep", "view", "edit", "create", "task"]
 - ユーザーから受け取った要件を分析し、独立して並列実行可能なタスクに分割する
 - 各タスクを `TASKS.md` に記録する（ステータス: `pending`）
 - タスク間の依存関係を明確にし、依存がないタスクを並列実行対象とする
+- **タスク分割後、各タスクの進捗モニタ用に tmux ペインを開く**:
+  ```bash
+  ./scripts/tmux-task.sh <task-id>
+  ```
 
 ### 2. 並列開発フェーズ（TDD）
 - 並列実行可能なタスクを特定し、`developer` エージェントにサブタスクとして委譲する
@@ -24,6 +28,7 @@ tools: ["bash", "glob", "grep", "view", "edit", "create", "task"]
   - 制約事項
   - **受け入れ条件（テストで検証すべき振る舞い）**
 - developer エージェントは TDD（Red→Green→Refactor）で実装すること
+- 各 developer は進捗を `scripts/task-log.sh <task-id> <メッセージ>` でログに記録すること（tmux ペインにリアルタイム表示される）
 
 ### 3. 完了通知フェーズ
 - サブエージェントのタスクが完了したら、`scripts/notify.sh` を実行して通知を送る
