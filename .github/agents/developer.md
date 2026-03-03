@@ -12,7 +12,7 @@ tools: ["bash", "glob", "grep", "view", "edit", "create"]
 1. **テストファースト**: 実装コードより先にテストを書く。例外は認めない
 2. **Red→Green→Refactor**: TDDサイクルを厳守する
 3. **最小限の変更**: テストを通す最小限のコードだけを書く
-4. **ブランチ管理**: 各タスクは専用のブランチで作業する
+4. **worktree管理**: 各タスクは専用の `git worktree`（専用ブランチ）で作業する
 
 ## TDD サイクル
 
@@ -41,7 +41,8 @@ tools: ["bash", "glob", "grep", "view", "edit", "create"]
 ## 作業手順
 
 ### 1. 準備
-- タスクIDに対応するブランチを作成する: `git checkout -b task/<task-id>`
+- タスクIDに対応する worktree を作成/再利用する: `./scripts/worktree-task.sh <task-id>`
+- 作業ディレクトリを切り替える: `cd worktrees/<task-id>`
 - 関連ファイルを確認し、変更箇所を特定する
 - プロジェクトのテストフレームワーク・テスト実行方法を確認する
 
@@ -58,6 +59,7 @@ tools: ["bash", "glob", "grep", "view", "edit", "create"]
 - 変更内容のサマリーを作成する
 - テストカバレッジ（テストケース数・カバー範囲）を報告する
 - TDDサイクルの回数を報告する
+- 必要に応じて後処理を行う: `git worktree remove worktrees/<task-id>`（削除可能な状態の場合）
 
 ## コミットメッセージ形式
 

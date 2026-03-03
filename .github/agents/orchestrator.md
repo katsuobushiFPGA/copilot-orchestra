@@ -37,9 +37,11 @@ tools: ["bash", "glob", "grep", "view", "edit", "create", "task"]
 ### 5. 並列開発フェーズ（developer × N）
 - 並列実行可能なタスクを特定し、`developer` エージェントにサブタスクとして委譲する
 - `/fleet` モードを活用し、複数のサブエージェントを同時に起動する
+- 各タスク開始時に `./scripts/worktree-task.sh <task-id>` を実行して `git worktree` を作成または再利用する
 - 各サブエージェントには以下の情報を渡す:
   - タスクID
   - タスクの詳細説明
+  - 対応する worktree パス（例: `worktrees/<task-id>`）
   - 関連ファイルのパス
   - **architect が定義したインターフェース・共通規約**
   - 制約事項

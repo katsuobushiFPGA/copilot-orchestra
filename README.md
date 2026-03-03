@@ -24,6 +24,7 @@ devcontainer + tmux で安全かつ進捗が見える開発環境を提供しま
 └── scripts/
     ├── notify.sh                    # 完了通知（ターミナル/デスクトップ/Webhook）
     ├── tmux-task.sh                 # タスクごとの tmux ペイン作成
+       ├── worktree-task.sh             # タスクごとの git worktree 作成/再利用
     └── task-log.sh                  # TDD 進捗ログ記録
 ```
 
@@ -38,7 +39,7 @@ devcontainer + tmux で安全かつ進捗が見える開発環境を提供しま
         ↓
  4. orchestrator    タスク分割 → TASKS.md に記録 → tmux ペイン作成
         ↓
- 5. developer × N   並列 TDD 実装（Red→Green→Refactor）
+ 5. developer × N   並列 TDD 実装（Red→Green→Refactor、taskごとの git worktree）
         ↓
  6.                 完了通知
         ↓
@@ -95,7 +96,13 @@ orchestrator が以下を自動で進行します:
 2. **全体設計**: architect が技術選定・構造・インターフェースを設計
 3. **設計レビュー**: reviewer が設計の妥当性を検証
 4. **タスク分割**: 設計に基づきタスクを分割、tmux ペインで進捗モニタ開始
-5. **並列TDD開発**: developer エージェントが fleet モードで並列実装
+5. **並列TDD開発**: developer エージェントが taskごとの `git worktree` を使って fleet モードで並列実装
+
+補助コマンド（任意）:
+
+```bash
+./scripts/worktree-task.sh T-001
+```
 6. **完了通知**: 各タスク完了時に通知
 7. **コードレビュー**: reviewer が自動レビュー
 8. **解説**: explainer が実装内容をわかりやすく解説
@@ -145,7 +152,7 @@ tmux 操作:
 |------------|------|-----------|
 | `orchestrator` | フロー管理・要件整理・タスク分割 | 最初と中間（ステップ1, 4） |
 | `architect` | 全体設計・技術選定・インターフェース定義 | 設計フェーズ（ステップ2） |
-| `developer` | TDD 実装（Red→Green→Refactor） | 並列開発（ステップ5） |
+| `developer` | TDD 実装（Red→Green→Refactor、taskごとの git worktree 利用） | 並列開発（ステップ5） |
 | `reviewer` | 設計レビュー + コードレビュー | ステップ3, 7 |
 | `explainer` | 人間向け解説 | 人間レビュー前（ステップ8） |
 
