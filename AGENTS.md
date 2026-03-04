@@ -55,7 +55,48 @@ Use the orchestrator agent to break down and manage this task: [要件の説明]
 
 # タスクの状態を確認
 cat TASKS.md
+
+# tmux ダッシュボードで全タスクの進捗を確認（新ペインで開く）
+./scripts/tmux-dashboard.sh --pane
+
+# ダッシュボードを直接表示（ワンショット）
+./scripts/tmux-dashboard.sh
+
+# ダッシュボードを自動更新モードで表示（2秒ごと）
+./scripts/tmux-dashboard.sh --watch
+
+# 人間レビュー待ちタスクの一覧を表示
+./scripts/human-review.sh --list
+
+# 特定タスクの人間レビューを実施
+./scripts/human-review.sh T-001
+
+# 全レビュー待ちタスクを順にレビュー
+./scripts/human-review.sh --all
 ```
+
+### 進捗確認
+
+tmux ダッシュボードで全タスクの進捗をリアルタイムに確認できる:
+- **`--pane`**: tmux の新しいペインでダッシュボードを開く
+- **`--watch`**: 2秒ごとに自動更新されるリアルタイム表示
+- **引数なし**: ワンショットで現在の状態を表示
+
+ダッシュボードには以下が表示される:
+- タスク一覧とステータス（色付き）
+- 各タスクの最新ログエントリ
+- 通知ログの最新5件
+- 人間レビュー待ちタスクの警告
+
+### 人間レビュー
+
+AIレビュー完了後、人間レビューは必ず `human-review.sh` を通じて実施する:
+1. タスクの概要・変更差分・AI解説を表示
+2. 承認 (approve) / 差し戻し (reject) / スキップを選択
+3. `TASKS.md` のステータスを自動更新
+4. 通知を送信しレビューログに記録
+
+レビュー履歴は `.task-logs/human-reviews.log` に保存される。
 
 ### 通知設定
 
